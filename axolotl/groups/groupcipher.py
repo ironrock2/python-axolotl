@@ -102,7 +102,10 @@ class GroupCipher:
             cipher = AESCipher(key, iv)
             plaintext = cipher.decrypt(ciphertext)
             if sys.version_info >= (3, 0):
-                return plaintext.decode()
+                try:
+                    return plaintext.decode()
+                except UnicodeDecodeError as e:
+                    return plaintext
             return plaintext
         except Exception as e:
             raise InvalidMessageException(e)
